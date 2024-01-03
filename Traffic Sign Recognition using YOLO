@@ -1,0 +1,139 @@
+      },
+      "source": [
+        "## 🔗 Creating classes.names and labelled_data.data 🔗"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "8Bsh1bQP_QXy"
+      },
+      "source": [
+        "## classes.names ##\n",
+        "\n",
+        "classes = [\n",
+        "    'Speed limit (20km/h)',\n",
+        "    'Speed limit (30km/h)',\n",
+        "    'Speed limit (50km/h)',\n",
+        "    'Speed limit (60km/h)',\n",
+        "    'Speed limit (70km/h)',\n",
+        "    'Speed limit (80km/h)',\n",
+        "    'Speed limit (100km/h)',\n",
+        "    'Speed limit (120km/h)',\n",
+        "    'No passing',\n",
+        "    'No passing for vechiles over 3.5 metric tons',\n",
+        "    'No vehicles',\n",
+        "    'Vechiles over 3.5 metric tons prohibited',\n",
+        "    'Right-of-way at the next intersection',\n",
+        "    'General caution',\n",
+        "    'Dangerous curve to the left',\n",
+        "    'Dangerous curve to the right',\n",
+        "    'Double curve',\n",
+        "    'Bumpy road',\n",
+        "    'Slippery road',\n",
+        "    'Road narrows on the right',\n",
+        "    'Road work',\n",
+        "    'Traffic signals',\n",
+        "    'Pedestrians',\n",
+        "    'Children crossing',\n",
+        "    'Bicycles crossing',\n",
+        "    'Beware of ice/snow',\n",
+        "    'Wild animals crossing',\n",
+        "    'Turn right ahead',\n",
+        "    'Turn left ahead',\n",
+        "    'Ahead only',\n",
+        "    'Go straight or right',\n",
+        "    'Go straight or left',\n",
+        "    'Keep right',\n",
+        "    'Keep left',\n",
+        "    'Roundabout mandatory',\n",
+        "    'Priority road',\n",
+        "    'Yield',\n",
+        "    'Stop',\n",
+        "    'No entry',\n",
+        "    'End of speed limit (80km/h)',\n",
+        "    'End of all speed and passing limits',\n",
+        "    'End of no passing',\n",
+        "    'End of no passing by vechiles over 3.5 metric tons'\n",
+        "]\n",
+        "\n",
+        "f = open(f'classes.names','w+')\n",
+        "for c in classes:\n",
+        "    f.write(f'{c}\\n')\n",
+        "f.close()\n",
+        "\n",
+        "## labelled_data.data ##\n",
+        "\n",
+        "config = {\n",
+        "    'classes': 43,\n",
+        "    'train': 'TFinal/train.text',\n",
+        "    'valid': 'TFinal/valid.text',\n",
+        "    'names': 'classes.names',\n",
+        "    'backup': 'backup'\n",
+        "}\n",
+        "f = open(f'labelled_data.data', 'w+')\n",
+        "for key in config:\n",
+        "    f.write(f'{key} = {config[key]}\\n')\n",
+        "f.close()\n"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "tgNSPrU4-oc9"
+      },
+      "source": [
+        "# ❤️‍🔥 Training the Model ❤️‍🔥"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "DXMyrPhD60yR"
+      },
+      "source": [
+        "# !wget https://pjreddie.com/media/files/darknet53.conv.74"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "qxD7IlD3wCw4"
+      },
+      "source": [
+        "!wget https://pjreddie.com/media/files/yolov3-tiny.weights ## tinyYOLO for RaspberryPi"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 0
+        },
+        "id": "fudYxsff7hwq",
+        "outputId": "67b982e2-7584-4f2f-92e3-6e1a69aa124a"
+      },
+      "source": [
+        "!./darknet/darknet detector train labelled_data.data yolov3-tiny_custom.cfg backup/yolov3-tiny_custom_best.weights -dont_show -map"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "eVNlWjzz09ID"
+      },
+      "source": [],
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
