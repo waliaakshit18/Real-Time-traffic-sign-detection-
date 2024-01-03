@@ -1,0 +1,370 @@
+
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "WCeTcU6U-Uzr"
+      },
+      "source": [
+        "f = open(f'train.txt','r')\n",
+        "im_dest = 'images/train/'\n",
+        "lb_dest = 'labels/train/'\n",
+        "for x in f:\n",
+        "    im = x[:-1]\n",
+        "    lb = im.replace('.ppm','.txt')\n",
+        "    # print(im,lb)\n",
+        "    shutil.copy(im,im_dest)\n",
+        "    shutil.copy(lb,lb_dest)\n",
+        "f.close()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Ruo1BThfPj3I"
+      },
+      "source": [
+        "f = open(f'valid.txt','r')\n",
+        "im_dest = 'images/test/'\n",
+        "lb_dest = 'labels/test/'\n",
+        "\n",
+        "for x in f:\n",
+        "    im = x[:-1]\n",
+        "    lb = im.replace('.ppm','.txt')\n",
+        "    # print(im,lb)\n",
+        "    im_file = Path(im_dest + im[7:])\n",
+        "    if im_file.is_file():\n",
+        "        pass\n",
+        "    else:\n",
+        "        shutil.copy(im,im_dest)\n",
+        "        shutil.copy(lb,lb_dest)\n",
+        "f.close()"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "cgHowgo90Uzs",
+        "outputId": "3ed7d00f-537c-41b2-bc56-9abb3330d542"
+      },
+      "source": [
+        "%cd yolov5/yolov5_data"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/content/gdrive/My Drive/Colab Notebooks/traffic/yolov5/yolov5_data\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "jcYGh9GwM96k",
+        "outputId": "349ccf82-d215-4c33-930b-5494896a1353"
+      },
+      "source": [
+        "!pwd"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/content/gdrive/My Drive/Colab Notebooks/traffic/yolov5\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "Gn_qtfV4QKul",
+        "outputId": "b777dbec-73db-4e73-96b3-4cfb14a1ee3f"
+      },
+      "source": [
+        "!pip install pillow==4.1.1"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Requirement already satisfied: pillow==4.1.1 in /usr/local/lib/python3.7/dist-packages (4.1.1)\n",
+            "Requirement already satisfied: olefile in /usr/local/lib/python3.7/dist-packages (from pillow==4.1.1) (0.46)\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "n5TYKFJ-BQ_u",
+        "outputId": "deccf44e-15ac-4337-e3ef-d6076b23de06"
+      },
+      "source": [
+        "from PIL import Image\n",
+        "import time\n",
+        "im_dir = 'images/train/'\n",
+        "%cd {im_dir} \n",
+        "im_list = glob.glob('*.ppm')\n",
+        "# for im in os.listdir(im_dir):\n",
+        "for i, im in enumerate(im_list):\n",
+        "    # if im.endswith('.ppm'):\n",
+        "    # if not os.path.exists(f'{im_dir + im[:-4]}.jpg'):\n",
+        "    name = im[:-4]\n",
+        "    im_file = Image.open(im)\n",
+        "    im_file.save(f'{name}.jpg')\n",
+        "    time.sleep(0.01)\n",
+        "    os.remove(im)\n",
+        "    if not i % 100:\n",
+        "        print(i)\n",
+        "else:\n",
+        "    print(i)\n",
+        "    print('done')"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "[Errno 2] No such file or directory: 'images/train/'\n",
+            "/content/gdrive/My Drive/Colab Notebooks/traffic/yolov5/yolov5_data/images/train\n",
+            "4188\n",
+            "done\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "0zZm51bgg-5t"
+      },
+      "source": [
+        "from PIL import Image\n",
+        "import time\n",
+        "im_dir = '../test/'\n",
+        "%cd {im_dir} \n",
+        "!pwd\n",
+        "# i = 0\n",
+        "im_list = glob.glob('*.ppm')\n",
+        "# for im in os.listdir(im_dir):\n",
+        "for i, im in enumerate(im_list):\n",
+        "    # if im.endswith('.ppm'):\n",
+        "    # if not os.path.exists(f'{im_dir + im[:-4]}.jpg'):\n",
+        "    name = im[:-4]\n",
+        "    im_file = Image.open(im)\n",
+        "    im_file.save(f'{name}.jpg')\n",
+        "    time.sleep(0.01)\n",
+        "    os.remove(im)\n",
+        "    # i += 1\n",
+        "    if not i % 100:\n",
+        "        print(i)\n",
+        "    # print(name)\n",
+        "else:\n",
+        "    print(i)\n",
+        "    print('done')"
+      ],
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "RY6CeYFyiC11",
+        "outputId": "db51e9c3-b586-4837-8bdb-847a96f3f6a2"
+      },
+      "source": [
+        "import glob\n",
+        "a = glob.glob('*.jpg')\n",
+        "len(a)"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "11763"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 28
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+
+"  0                -1  1      3520  models.common.Focus                     [3, 32, 3]                    \n",
+            "  1                -1  1     18560  models.common.Conv                      [32, 64, 3, 2]                \n",
+            "  2                -1  1     18816  models.common.C3                        [64, 64, 1]                   \n",
+            "  3                -1  1     73984  models.common.Conv                      [64, 128, 3, 2]               \n",
+            "  4                -1  1    156928  models.common.C3                        [128, 128, 3]                 \n",
+            "  5                -1  1    295424  models.common.Conv                      [128, 256, 3, 2]              \n",
+            "  6                -1  1    625152  models.common.C3                        [256, 256, 3]                 \n",
+            "  7                -1  1   1180672  models.common.Conv                      [256, 512, 3, 2]              \n",
+            "  8                -1  1    656896  models.common.SPP                       [512, 512, [5, 9, 13]]        \n",
+            "  9                -1  1   1182720  models.common.C3                        [512, 512, 1, False]          \n",
+            " 10                -1  1    131584  models.common.Conv                      [512, 256, 1, 1]              \n",
+            " 11                -1  1         0  torch.nn.modules.upsampling.Upsample    [None, 2, 'nearest']          \n",
+            " 12           [-1, 6]  1         0  models.common.Concat                    [1]                           \n",
+            " 13                -1  1    361984  models.common.C3                        [512, 256, 1, False]          \n",
+            " 14                -1  1     33024  models.common.Conv                      [256, 128, 1, 1]              \n",
+            " 15                -1  1         0  torch.nn.modules.upsampling.Upsample    [None, 2, 'nearest']          \n",
+            " 16           [-1, 4]  1         0  models.common.Concat                    [1]                           \n",
+            " 17                -1  1     90880  models.common.C3                        [256, 128, 1, False]          \n",
+            " 18                -1  1    147712  models.common.Conv                      [128, 128, 3, 2]              \n",
+            " 19          [-1, 14]  1         0  models.common.Concat                    [1]                           \n",
+            " 20                -1  1    296448  models.common.C3                        [256, 256, 1, False]          \n",
+            " 21                -1  1    590336  models.common.Conv                      [256, 256, 3, 2]              \n",
+            " 22          [-1, 10]  1         0  models.common.Concat                    [1]                           \n",
+            " 23                -1  1   1182720  models.common.C3                        [512, 512, 1, False]          \n",
+            " 24      [17, 20, 23]  1    129456  models.yolo.Detect                      [43, [[10, 13, 16, 30, 33, 23], [30, 61, 62, 45, 59, 119], [116, 90, 156, 198, 373, 326]], [128, 256, 512]]\n",
+            "Model Summary: 283 layers, 7176816 parameters, 7176816 gradients, 16.7 GFLOPS\n",
+            "\n",
+            "Transferred 354/362 items from yolov5s.pt\n",
+            "Scaled weight_decay = 0.0005\n",
+            "Optimizer groups: 62 .bias, 62 conv.weight, 59 other\n",
+            "\u001b[34m\u001b[1mtrain: \u001b[0mScanning 'yolov5_data/labels/train.cache' images and labels... 27446 foun\u001b[0m\n",
+            "\u001b[34m\u001b[1mval: \u001b[0mScanning 'yolov5_data/labels/test.cache' images and labels... 11762 found, \u001b[0m\n",
+            "Plotting labels... \n",
+            "\n",
+            "\u001b[34m\u001b[1mautoanchor: \u001b[0mAnalyzing anchors... anchors/target = 2.02, Best Possible Recall (BPR) = 1.0000\n",
+            "Image sizes 640 train, 640 test\n",
+            "Using 2 dataloader workers\n",
+            "Logging results to runs/train/traffic_yolov534\n",
+            "Starting training for 100 epochs...\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "      0/99     10.9G   0.03681   0.01656   0.07226    0.1256       127       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761      0.0243        0.72      0.0375      0.0278\n",
+            "Images sizes do not match. This will causes images to be display incorrectly in the UI.\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "      1/99     11.9G   0.02494   0.01029   0.06445   0.09968       139       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.557       0.356       0.158        0.12\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "      2/99     11.9G   0.02451   0.01013    0.0582   0.09284       142       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.255       0.504       0.161      0.0852\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "      3/99     11.9G   0.02455   0.01047   0.05643   0.09146       146       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.284       0.673       0.231       0.184\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "      4/99     11.9G   0.02071   0.00929    0.0531    0.0831       131       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.703       0.382       0.281        0.24\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "      5/99     11.9G   0.01951   0.00881   0.05228    0.0806       128       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.555       0.545       0.282       0.241\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "      6/99     11.9G   0.01992  0.008687   0.05162   0.08022       146       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.381       0.657       0.319       0.257\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "      7/99     11.9G    0.0178  0.008342   0.04908   0.07522       138       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.234       0.736       0.301       0.258\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "      8/99     11.9G    0.0179  0.008273   0.04907   0.07524       138       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.438       0.649       0.371       0.302\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "      9/99     11.9G   0.01788  0.008232   0.04864   0.07475       144       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.446       0.677       0.436       0.386\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "     10/99     11.9G   0.01758   0.00807   0.04787   0.07352       144       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.526        0.61       0.483       0.425\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "     11/99     11.9G   0.01722  0.008021   0.04584   0.07109       127       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.572       0.555       0.472       0.419\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "     12/99     11.9G   0.01715  0.008061   0.04561   0.07082       135       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5\n",
+            "                 all       11763       11761       0.557       0.654       0.554       0.487\n",
+            "\n",
+            "     Epoch   gpu_mem       box       obj       cls     total    labels  img_size\n",
+            "     13/99     11.9G   0.01711  0.007899   0.04541   0.07042       131       640\n",
+            "               Class      Images      Labels           P           R      mAP@.5"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "jEWbYu3d5lbl",
+        "outputId": "626d5c6e-6e95-4148-cf00-5ddbf2d1a89e"
+      },
+      "source": [
+        "%cd yolov5/yolov5_data"
+      ],
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "/content/gdrive/My Drive/Colab Notebooks/traffic/yolov5/yolov5_data\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    }
+  ]
